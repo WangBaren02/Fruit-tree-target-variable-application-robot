@@ -1,0 +1,84 @@
+import sensor, image, time,math,pyb
+import sensor, image, time,math,pyb
+from pyb import UART,LED
+import json
+import ustruct
+sensor.reset()
+sensor.set_pixformat(sensor.RGB565)
+sensor.set_framesize(sensor.QVGA)
+sensor.skip_frames(time = 2000)
+sensor.set_auto_gain(False)
+sensor.set_auto_whitebal(False)
+used_roi = (120,70,80,80)               #(140,90,40,40) 
+green_threshold = (10,90,-55,-15,15,55)  #10,90,-70,-30,15,45)
+red_threshold = (10,90,60,90,35,65)      #(40,60,60,90,35,65)
+clock = time.clock()
+p0 = pyb.Pin("P0", pyb.Pin.OUT_PP)     #red+green
+p1 = pyb.Pin("P1", pyb.Pin.OUT_PP)    #green
+p2 = pyb.Pin("P2", pyb.Pin.OUT_PP)   #red
+p0.value(0)
+p1.value(0)
+p2.value(0)
+def find_max(blobs):
+    max_size = 0
+    for blob in blobs:
+        if blob.pixels() > max_size:
+            max_blob=blob
+            max_size = blob.pixels()
+    return max_blob
+green=0
+red=0
+double=0
+while(True):
+    img = sensor.snapshot()
+    img.mean(1)
+    img.draw_rectangle(used_roi)
+    green_blob = img.find_blobs([green_threshold],roi=used_roi,area_threshold=30,merge=False)  #130
+    red_blob = img.find_blobs([red_threshold],roi=used_roi,area_threshold=50,merge=False)      #130
+    com_blob=green_blob+red_blob
+    #if len(com_blob)>=2 :
+     #   double=1
+    #    p0.value(double)
+    #    print(green,red,double)
+   # else:
+     #   double=0
+     #   p0.value(double)
+      #  print(green,red,double)
+    if (green_blob or red_blob):
+        max_b = find_max(com_blob)
+        img.draw_rectangle(max_b[0:4])
+        img.draw_cross(max_b[5], max_b[6])
+        if max_b in green_blob:
+           green=1
+           red=0
+           p1.value(green)
+           p2.value(red)
+           print(green,red,double)
+        elif max_b in red_blob:
+           green=0
+           red=1
+           p1.value(green)
+           p2.value(red)
+           print(green,red,double)
+        else:
+           green=0
+           red=0
+           p1.value(green)
+           p2.value(red)
+           print(green,red,double)
+    else:
+        green=0
+        red=0
+        p1.value(green)
+        p2.value(red)
+        print(green,red,double)
+        #print(green,yellow)
+
+else:
+        green=0
+        red=0
+        p1.value(green)
+        p2.value(red)
+        print(green,red,double)
+        #print(green,yellow)
+    
