@@ -1,0 +1,5 @@
+--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork -I ..\CORE -I ..\FWLIB\inc -I ..\USER -I ..\SYSTEM\sys -I ..\HARDWARE\LED -I ..\SYSTEM\delay -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\OLED -I ..\HARDWARE\USART1_DMA -I ..\HARDWARE\USART2_DMA -I ..\HARDWARE\USART3_DMA -I ..\HARDWARE\UART4_DMA -I ..\HARDWARE\TIMER7 -I ..\SYSTEM\CONTROL -I ..\HARDWARE\SERVO -I ..\HARDWARE\ULTRASONIC -I ..\HARDWARE\PARAM -I ..\HARDWARE\MOTOR -I ..\HARDWARE\ENCODER -I ..\HARDWARE\MPU9250 -I ..\HARDWARE\MPUIIC -I ..\DMP\driver\eMPL -I ..\DMP\driver\include -I ..\DMP\driver\stm32L -I ..\DMP\eMPL-hal -I ..\DMP\mllite -I ..\DMP\mpl
+-IC:\Translate\keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+-IC:\Translate\keil5\ARM\CMSIS\Include
+-D__UVISION_VERSION="531" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4
+-o ..\obj\mpl.o --omf_browse ..\obj\mpl.crf --depend ..\obj\mpl.d --feedback "..\OBJ\Prayer.fed" "..\DMP\mllite\mpl.c"
